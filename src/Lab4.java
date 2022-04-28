@@ -113,9 +113,9 @@ public class Lab4 extends JFrame {
                     }
                 }
             }
+
         }
     }
-
     public static void main(String[] args) {
         Lab4 lab = new Lab4();
     }
