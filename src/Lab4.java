@@ -19,6 +19,36 @@ public class Lab4 extends JFrame {
                 turn = turn + 1;
                 play = selection(situation, STM);
             }
+
+        }
+        void compensation(float STM[],int LOG[],string game,double beta,){
+            float reward, punish,normal;
+            for(turn=1; turn <= LOG.length; turn = turn+1){
+                i= LOG[turn][1];
+                k= LOG[turn][2];
+                nplays = STM[turn][0];
+                //possible plays
+                //In Reward increase probability
+                if(game == "Won"){
+                    reward = beta*(1-STM[i][k] );
+                    STM[i][k] = STM[i][k] + reward;
+                    normal = reward/(nplays-1);
+                    for ( j = 1; j <= outputs ; j = j+ 1 )
+                    if (( j <> k ) & ( STM[i][j] <> 0 )){
+                        STM[i][j] = STM[i, j]-normal;
+                    }
+                    // In Punishment reduce probability
+                    else { punish = ß/2*STM[i][k];
+                        STM[i][k] = STM[i][k] - punish;
+                        normal = punish/(nplays-1);
+                        for ( j= 1; j <= outputs ; j = j+ 1 )
+                        {
+                            if (( j <> k ) & ( STM[i][j] <> 0 )){
+                            STM[i][j] = STM[i,j] + normal } } }
+                }
+
+            }
+
         }
     }
 }
