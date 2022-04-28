@@ -10,9 +10,9 @@ import static java.lang.Math.random;
 public class Lab4 extends JFrame {
     int outputs = 9;
     //[entries][outputs]
-    float[][] STM = new float[1000][outputs];
+    float[][] STM = new float[255168][outputs];
     //[ent_max][2]
-    int[][] LOG = new int[1000][2];
+    int[][] LOG = new int[9][2];
     String game;
     int i, k, j, situation, play, turn, times, turnmx, times_max, nplays;
     String mode;
@@ -27,25 +27,36 @@ public class Lab4 extends JFrame {
         b = scan.nextDouble();
         System.out.println("Mode: ");
         mode = scan.next();
-
+        //runs for how many games user said to run through (times_max)
         for (times = 1; times <= times_max; times = times + 1) {
             game = "Playing";
+            //situation
             situation = 0;
             turn = 0;
+            //ex: turn 1 player 1 goes
             while (game == "Playing") {
                 turn = turn + 1;
+                //stores the play of player 1 from that turn.
                 play = selection(STM, situation);
+                //situation is the state the board is in
                 LOG[turn][1] = situation;
+                //play is the move this player made in response to the situation.
                 LOG[turn][2] = play;
+                //check if there is a winner or tie
                 game = evalua(situation);
+                //ex: turn 1 player 2 goes
                 if (game == "Playing") {
+                    //situation is the state the board is in
                     situation = otherPlay(play);
+                    //check if there is a winner or tie
                     game = evalua(situation);
                 }
             }
+            //how many turns have passed
             turnmx = turn;
             compensation(STM, LOG, game);
         }
+
     }
     //placeholder
     private int otherPlay(int play) {
@@ -89,7 +100,9 @@ public class Lab4 extends JFrame {
     void compensation(float[][] STM, int[][] LOG, String game) {
         float reward, punish, normal;
         for (turn = 1; turn <= turnmx; turn = turn + 1) {
+            //i= state of board on turn
             i = LOG[turn][1];
+            //k= move player made on turn
             k = LOG[turn][2];
             nplays = (int) STM[turn][0]; //possible plays
             //In Reward increase probability
@@ -113,7 +126,6 @@ public class Lab4 extends JFrame {
                     }
                 }
             }
-
         }
     }
     public static void main(String[] args) {
