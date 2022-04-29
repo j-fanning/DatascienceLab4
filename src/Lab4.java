@@ -4,21 +4,25 @@ import java.applet.*;
 import java.util.Random;
 import java.util.Scanner;
 
+
 import static java.lang.Math.random;
 
 
 public class Lab4 extends JFrame {
+    FindAllBoards.Board[] boards = FindAllBoards.findAllBoards();
     int outputs = 9;
-    //[entries][outputs]
-    float[][] STM = new float[255168][outputs];
-    //[ent_max][2]
-    int[][] LOG = new int[9][2];
     String game;
-    int i, k, j, situation, play, turn, times, turnmx, times_max, nplays;
+    int i, k, j, play, turn, times, turnmx, times_max, nplays;
+    int situation;
     String mode;
     double b;
     //Basic Loop that plays a game times_max times
     public Lab4() {
+        //All possible boards that are not full or a player is more than 1 step ahead of other player
+        for (int i = 0; i < boards.length; i++) {
+            System.out.println(boards[i]);
+        }
+        System.err.println("Total unique boards: "+ boards.length);
         System.out.println("Tic Tac toe");
         Scanner scan = new Scanner(System.in);
         System.out.println("Amount of sessions: ");
@@ -27,6 +31,10 @@ public class Lab4 extends JFrame {
         b = scan.nextDouble();
         System.out.println("Mode: ");
         mode = scan.next();
+        //[entries][outputs]
+        float[][] STM = new float[916][outputs];
+        //[ent_max][2]
+        int[][] LOG = new int[9][2];
         //runs for how many games user said to run through (times_max)
         for (times = 1; times <= times_max; times = times + 1) {
             game = "Playing";
@@ -64,12 +72,12 @@ public class Lab4 extends JFrame {
     }
     //placeholder
     private String evalua(int situation) {
-        return "";
+        return "Playing";
     }
 
     // Selection Process (mode: random or max )
     int selection(float[][] STM, Integer situation) {
-        int selectionMade;
+        int selectionMade = 0;
         float cumulative, number;
         if (mode == "max") {
             int max = 1;
@@ -87,7 +95,7 @@ public class Lab4 extends JFrame {
             cumulative = 0;
             selectionMade = 0;
             j = 0;
-            while (selectionMade <> 0){
+            while (selectionMade == 0){
                 j = j + 1;
                 cumulative = cumulative + STM[situation][j];
                 if (cumulative > number)
@@ -111,7 +119,7 @@ public class Lab4 extends JFrame {
                 STM[i][k] = STM[i][k] + reward;
                 normal = reward / (nplays - 1);
                 for (j = 1; j <= outputs; j = j + 1)
-                    if ((j < > k) & (STM[i][j] <> 0 )){
+                    if ((j != k) & (STM[i][j] != 0 )){
                     STM[i][j] = STM[i][j] - normal;
                 }
             }
@@ -121,7 +129,7 @@ public class Lab4 extends JFrame {
                 STM[i][k] = STM[i][k] - punish;
                 normal = punish / (nplays - 1);
                 for (j = 1; j <= outputs; j = j + 1) {
-                    if ((j <> k) & (STM[i][j] <> 0 )){
+                    if ((j != k) & (STM[i][j] != 0 )){
                         STM[i][j] = STM[i][j] + normal;
                     }
                 }
@@ -130,5 +138,6 @@ public class Lab4 extends JFrame {
     }
     public static void main(String[] args) {
         Lab4 lab = new Lab4();
+        return;
     }
 }
